@@ -22,6 +22,7 @@ func Setup(router *gin.Engine) {
 		v1 := api.Group("/v1")
 		{
 			handler.SetupTestDBAPI(v1)
+			handler.SetupAuthAPI(v1)
 		}
 	}
 
