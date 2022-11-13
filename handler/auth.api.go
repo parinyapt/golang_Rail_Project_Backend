@@ -37,7 +37,7 @@ func requestOTP(c *gin.Context) {
 			Default: utils.ResponseDefault{
 				Success:   false,
 				Message:   "error",
-				ErrorCode: "0",
+				ErrorCode: "1",
 				Data:      nil,
 			},
 		})
