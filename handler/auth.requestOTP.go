@@ -136,8 +136,8 @@ func requestOTP(c *gin.Context) {
 
 	if err := utils.SendMail(models.ParameterSendMail{
 		Mailto:   []string{account.Email},
-		Subject:  "Hello " + account.Name,
-		Body:     "<p>Your OTP is </p><h1>" + code + "</h1><p>(Valid for 5 minutes). REF:" + otpinsertdata.UUID + "</p>",
+		Subject:  "RailTrip Login OTP",
+		Body:     "<p>Your OTP is </p><h1>" + code + "</h1><p>(Valid for 5 minutes)</p><p>REF:" + otpinsertdata.UUID + "</p>",
 		BodyType: "html",
 	}); err != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
