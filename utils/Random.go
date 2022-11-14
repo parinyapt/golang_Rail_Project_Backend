@@ -11,3 +11,5 @@ func RandomNumber(maxRange int) int {
 
 	return random.Intn(maxRange)
 }
+
+// https://www.geeksforgeeks.org/generating-random-numbers-in-golang/

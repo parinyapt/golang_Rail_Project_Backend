@@ -33,13 +33,38 @@ func requestOTP(c *gin.Context) {
 
 	validate := validator.New()
 	if err := validate.Struct(reqOTP); err != nil {
+		var allValidateError []models.ValidatorError
+		for _, err := range err.(validator.ValidationErrors) {
+			jsonfieldname, err2 := utils.GetStructTag(models.ParameterGetStructTag{
+				Structx: reqOTP,
+				FieldName: err.Field(),
+				TagName: "json",
+			})
+			if err2 != nil {
+				utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
+					ResponseCode: 500,
+					Default: utils.ResponseDefault{
+						Success:   false,
+						Message:   "Internal Server Error",
+						ErrorCode: "ISE01",
+						Data:      nil,
+					},
+				})
+				return
+			}
+			allValidateError = append(allValidateError, models.ValidatorError{
+				Field: jsonfieldname,
+				ErrorMsg: utils.ValidatorErrorMsg(err.Tag()),
+			})
+		}
+
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 			ResponseCode: 400,
 			Default: utils.ResponseDefault{
 				Success:   false,
 				Message:   "error invalid input",
 				ErrorCode: "2",
-				Data:      nil,
+				Data:      allValidateError,
 			},
 		})
 		return

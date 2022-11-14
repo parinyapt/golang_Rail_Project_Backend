@@ -5,6 +5,6 @@ import (
 )
 
 type JWTCustomClaims struct {
-	jwt.StandardClaims
-	VerifyID string `json:"verify_id"`
+	VerifyID         string `json:"verify_id"`
+	jwt.RegisteredClaims
 }

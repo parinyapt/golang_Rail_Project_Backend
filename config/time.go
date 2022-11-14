@@ -12,4 +12,5 @@ func TimezoneSetup() {
 		log.Fatalf("[Error]->Failed to LoadLocation Timezone Config on TimezoneSetup() : %s", err)
 	}
 	time.Local = loc // -> this is setting the global timezone
+	// https://stackoverflow.com/questions/54363451/setting-timezone-globally-in-golang
 }
