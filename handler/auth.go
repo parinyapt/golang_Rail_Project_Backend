@@ -6,6 +6,7 @@ import (
 
 func SetupAuthAPI(router *gin.RouterGroup) {
 	router.POST("/requestOTP", requestOTP)
+	router.POST("/login", login)
 }
 
 
