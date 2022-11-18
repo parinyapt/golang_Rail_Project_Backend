@@ -136,10 +136,10 @@ func login(c *gin.Context) {
 	// }
 
 	claims := &models.JWTCustomClaims{
-		VerifyID: "claimsxxxxxxxxx",
+		VerifyID: qrCheckOTP[0].UUID,
 		RegisteredClaims: jwt.RegisteredClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(30 * time.Minute)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(10 * time.Minute)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    "RailTrip",
@@ -147,7 +147,7 @@ func login(c *gin.Context) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	ss, err := token.SignedString([]byte(os.Getenv("JWT_SIGN_KEY")))
+	stringtoken, err := token.SignedString([]byte(os.Getenv("JWT_SIGN_KEY")))
 	if err != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 			ResponseCode: 500,
@@ -168,7 +168,7 @@ func login(c *gin.Context) {
 			Message:   "login success",
 			ErrorCode: "0",
 			Data:      []interface{}{
-				ss,
+				stringtoken,
 			},
 		},
 	})
