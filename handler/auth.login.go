@@ -161,15 +161,20 @@ func login(c *gin.Context) {
 		return
 	}
 
+	resLogin := models.ResponseLogin{
+		Token: stringtoken,
+	}
+
 	utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 		ResponseCode: 200,
 		Default: utils.ResponseDefault{
 			Success:   true,
 			Message:   "login success",
 			ErrorCode: "0",
-			Data:      []interface{}{
-				stringtoken,
-			},
+			Data:      resLogin,
+			// Data:      []interface{}{
+			// 	stringtoken,
+			// },
 		},
 	})
 }
