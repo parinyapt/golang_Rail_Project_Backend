@@ -52,7 +52,6 @@ func JWTAuth(c *gin.Context) {
 		return
 	}
 
-	
 	token, _ := jwt.ParseWithClaims(tokenString, &models.JWTCustomClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(os.Getenv("JWT_SIGN_KEY")), nil
 	})
@@ -72,6 +71,8 @@ func JWTAuth(c *gin.Context) {
 	}
 
 	if claims, ok := token.Claims.(*models.JWTCustomClaims); ok && token.Valid {
+		langreq := c.Request.Header["Accept-Language"]
+		c.Set("language", langreq[0])
 		c.Set("AccountID", claims.VerifyID)
 		c.Next()
 	} else {

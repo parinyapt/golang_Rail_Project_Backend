@@ -26,7 +26,7 @@ func configCors(router *gin.Engine) {
 
 	// Set Allow Headers
 	config.AllowHeaders = []string{
-		"Origin", "Content-Length", "Content-Type",
+		"Origin", "Content-Length", "Content-Type", "Accept-Language",
 	}
 
 	// Set Allow Credentials

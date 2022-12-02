@@ -16,6 +16,27 @@ import (
 
 func SetupTestDBAPI(router *gin.RouterGroup) {
 	router.GET("/language",listLanguage)
+	router.GET("/demo1",Demo1)
+}
+
+type ResponseDemo1 struct {
+	AccountID string `json:"account_id"`
+	Language string `json:"lang"`
+}
+
+func Demo1(c *gin.Context) {
+	utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
+		ResponseCode: 200,
+		Default: utils.ResponseDefault{
+			Success:   true,
+			Message:   "",
+			ErrorCode: "0",
+			Data: ResponseDemo1{
+				AccountID: c.GetString("AccountID"),
+				Language: c.GetString("language"),
+			},
+		},
+	})
 }
 
 func listLanguage(c *gin.Context) {
