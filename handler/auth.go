@@ -9,8 +9,6 @@ func SetupAuthAPI(router *gin.RouterGroup) {
 	{
 		auth.POST("/request-otp", requestOTPnew)
 		auth.POST("/login", login)
-		auth.POST("/logout", logout)
-		auth.POST("/refresh-token", refreshToken)
 		auth.POST("/register", register)
 	}
 }

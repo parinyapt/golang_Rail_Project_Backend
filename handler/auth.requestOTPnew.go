@@ -75,7 +75,7 @@ func requestOTPnew(c *gin.Context) {
 	//find account in database
 	var account models.Account
 	// findAccount := database.DB.Where(&models.Account{Email: reqOTP.Email}).First(&account)
-	findAccount := database.DB.Where("account_email = ?", reqOTP.Email).Find(&account)
+	findAccount := database.DB.Where("account_email = ? AND account_name != ''", reqOTP.Email).Find(&account)
 	if findAccount.Error != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 			ResponseCode: 500,
@@ -90,26 +90,44 @@ func requestOTPnew(c *gin.Context) {
 	}
 	if findAccount.RowsAffected == 0 {
 		registerStatus = "register"
-		accountRegister := models.Account{
-			UUID:  uuid.New().String(),
-			Email: reqOTP.Email,
-			Name:  "",
-		}
-		if registerInsert := database.DB.Create(&accountRegister); registerInsert.Error != nil {
+
+		findAccount := database.DB.Where("account_email = ?", reqOTP.Email).Find(&account)
+		if findAccount.Error != nil {
 			utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 				ResponseCode: 500,
 				Default: utils.ResponseDefault{
 					Success:   false,
 					Message:   "Internal Server Error",
-					ErrorCode: "ISE05",
+					ErrorCode: "ISE01",
 					Data:      nil,
 				},
 			})
 			return
 		}
-		account = models.Account{
-			UUID: accountRegister.UUID,
-			Email: accountRegister.Email,
+		if findAccount.RowsAffected == 0 {
+		
+			accountRegister := models.Account{
+				UUID:  uuid.New().String(),
+				Email: reqOTP.Email,
+				Name:  "",
+			}
+			if registerInsert := database.DB.Create(&accountRegister); registerInsert.Error != nil {
+				utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
+					ResponseCode: 500,
+					Default: utils.ResponseDefault{
+						Success:   false,
+						Message:   "Internal Server Error",
+						ErrorCode: "ISE05",
+						Data:      nil,
+					},
+				})
+				return
+			}
+			account = models.Account{
+				UUID: accountRegister.UUID,
+				Email: accountRegister.Email,
+			}
+
 		}
 	}
 

@@ -139,7 +139,7 @@ func login(c *gin.Context) {
 		VerifyID: qrCheckOTP[0].UUID,
 		RegisteredClaims: jwt.RegisteredClaims{
 			// In JWT, the expiry time is expressed as unix milliseconds
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(2000 * time.Minute)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(8760 * time.Hour)),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
 			NotBefore: jwt.NewNumericDate(time.Now()),
 			Issuer:    "RailTrip",

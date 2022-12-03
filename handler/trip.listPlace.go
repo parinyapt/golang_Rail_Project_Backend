@@ -2,6 +2,6 @@ package handler
 
 import "github.com/gin-gonic/gin"
 
-func logout(c *gin.Context) {
-
+func listPlace(c *gin.Context) {
+	
 }

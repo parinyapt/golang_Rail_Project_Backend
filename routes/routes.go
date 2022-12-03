@@ -28,6 +28,7 @@ func Setup(router *gin.Engine) {
 				handler.SetupStationAPI(v1)
 				handler.SetupLineAPI(v1)
 				handler.SetupRouteAPI(v1)
+				handler.SetupTripAPI(v1)
 			}
 		}
 	}
