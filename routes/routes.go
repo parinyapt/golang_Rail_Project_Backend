@@ -26,6 +26,7 @@ func Setup(router *gin.Engine) {
 			{
 				handler.SetupTestDBAPI(v1)
 				handler.SetupStationAPI(v1)
+				handler.SetupLineAPI(v1)
 			}
 		}
 	}

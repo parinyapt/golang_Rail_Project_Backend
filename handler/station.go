@@ -6,5 +6,5 @@ import (
 
 func SetupStationAPI(router *gin.RouterGroup) {
 	router.GET("/station/:LineId", listStation)
-	// router.GET("/station/:stationId", stationDetail)
+	router.GET("/station/:LineId/:StationCode", stationDetail)
 }
