@@ -16,6 +16,7 @@ type ResponseListAllRoute struct {
 }
 
 type AllRouteList struct {
+	RouteID  int      `json:"route_id"`
 	Platform []string `json:"platform"`
 	Price    float64  `json:"price"`
 	Time     int      `json:"time"`
@@ -23,8 +24,9 @@ type AllRouteList struct {
 }
 
 type DBStructAllRouteList struct {
-	Platform string `json:"platform"`
-	Price    float64  `json:"price"`
-	Time     int      `json:"time"`
-	Station  int      `json:"station"`
+	RouteID  int
+	Platform string
+	Price    float64
+	Time     int
+	Station  int
 }

@@ -53,7 +53,8 @@ func listAllRoute(c *gin.Context) {
 
 	var AllRouteList []models.AllRouteList
 	sqlcommand3 := `SELECT
-		GROUP_CONCAT(DISTINCT crp_line.line_platform),
+			route_id,
+			GROUP_CONCAT(DISTINCT crp_line.line_platform),
 			route_price,
 			route_time,
 			route_station_count
@@ -80,7 +81,7 @@ func listAllRoute(c *gin.Context) {
 	defer query.Close()
 	for query.Next() {
 		var arl models.DBStructAllRouteList
-		if err := query.Scan(&arl.Platform, &arl.Price, &arl.Time, &arl.Station); err != nil {
+		if err := query.Scan(&arl.RouteID, &arl.Platform, &arl.Price, &arl.Time, &arl.Station); err != nil {
 			utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 				ResponseCode: 500,
 				Default: utils.ResponseDefault{
@@ -94,6 +95,7 @@ func listAllRoute(c *gin.Context) {
 		}
 		// arl.Platform = strings.Split(arl.Platform[0], ",")
 		arlreal := models.AllRouteList{
+			RouteID: arl.RouteID,
 			Platform: strings.Split(arl.Platform, ","),
 			Price: arl.Price,
 			Time: arl.Time,
