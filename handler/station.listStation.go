@@ -9,7 +9,7 @@ import (
 
 func listStation(c *gin.Context) {
 	var resListStation []models.ResponseListStation
-	query, err := database.DB.Raw("SELECT `station_id`, `station_code`, crp_translation.translation_text, `station_location_lat`, `station_location_lng`, `station_google_map`, `station_image` FROM `crp_station` INNER JOIN crp_translation ON crp_station.station_name_tx_id = crp_translation.translation_id INNER JOIN crp_language ON crp_translation.translation_language_id = crp_language.language_id WHERE crp_language.language_code = ? AND `station_line_id` = ?;", c.GetString("language"), c.Param("language")).Rows()
+	query, err := database.DB.Raw("SELECT `station_id`, `station_code`, crp_translation.translation_text, `station_location_lat`, `station_location_lng`, `station_google_map`, `station_image` FROM `crp_station` INNER JOIN crp_translation ON crp_station.station_name_tx_id = crp_translation.translation_id INNER JOIN crp_language ON crp_translation.translation_language_id = crp_language.language_id WHERE crp_language.language_code = ? AND `station_line_id` = ?;", c.GetString("language"), c.Param("LineId")).Rows()
 	if err != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 			ResponseCode: 500,
@@ -38,17 +38,18 @@ func listStation(c *gin.Context) {
 			return
 		}
 		resListStation = append(resListStation, resListStation2)
-		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
-			ResponseCode: 200,
-			Default: utils.ResponseDefault{
-				Success:   true,
-				Message:   "login success",
-				ErrorCode: "0",
-				Data:      resListStation,
-			},
-		})
+		
 		// query.Scan(&qrcotp.UUID)
 		// qrCheckOTP = append(qrCheckOTP, qrcotp)
 		// 	// do something
 	}
+	utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
+		ResponseCode: 200,
+		Default: utils.ResponseDefault{
+			Success:   true,
+			Message:   "login success",
+			ErrorCode: "0",
+			Data:      resListStation,
+		},
+	})
 }

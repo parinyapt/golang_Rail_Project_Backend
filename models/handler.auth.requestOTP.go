@@ -6,4 +6,5 @@ type RequestrequestOTP struct {
 
 type ResponserequestOTP struct {
 	RefID string `json:"ref_id"`
+	Status string `json:"status"`
 }

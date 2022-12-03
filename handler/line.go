@@ -4,7 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func SetupStationAPI(router *gin.RouterGroup) {
-	router.GET("/station/:LineId", listStation)
+func SetupLineAPI(router *gin.RouterGroup) {
+	router.GET("/line", listLine)
 	// router.GET("/station/:stationId", stationDetail)
 }
