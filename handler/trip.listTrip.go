@@ -11,6 +11,7 @@ func listTrip(c *gin.Context) {
 	var response []models.ResponseListTrip
 
 	sqlcommand := `SELECT
+	crp_trip.trip_id,
 	crp_trip.trip_name,
 	fromline.line_platform AS from_line_platform,
 	fromlinets.translation_text AS from_line_name,
@@ -50,7 +51,7 @@ WHERE
 	fromlang.language_code = ? AND tolang.language_code = ? AND crp_trip.trip_account_uuid = ?
 GROUP BY
 	crp_trip.trip_id;`
-	query, err := database.DB.Raw(sqlcommand, c.GetString("language"), c.GetString("language"), c.Param("AccountID")).Rows()
+	query, err := database.DB.Raw(sqlcommand, c.GetString("language"), c.GetString("language"), c.GetString("AccountID")).Rows()
 	if err != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 			ResponseCode: 500,
@@ -66,7 +67,7 @@ GROUP BY
 	defer query.Close()
 	for query.Next() {
 		var rlt models.ResponseListTrip
-		if err := query.Scan(&rlt.TripName, &rlt.FromLinePlatform, &rlt.FromLineName, &rlt.FromStationCode, &rlt.FromStationName, &rlt.ToLinePlatform, &rlt.ToLineName, &rlt.ToStationCode, &rlt.ToStationName, &rlt.MinPrice, &rlt.MinTime, &rlt.MinStation); err != nil {
+		if err := query.Scan(&rlt.TripID ,&rlt.TripName, &rlt.FromLinePlatform, &rlt.FromLineName, &rlt.FromStationCode, &rlt.FromStationName, &rlt.ToLinePlatform, &rlt.ToLineName, &rlt.ToStationCode, &rlt.ToStationName, &rlt.MinPrice, &rlt.MinTime, &rlt.MinStation); err != nil {
 			utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 				ResponseCode: 500,
 				Default: utils.ResponseDefault{
