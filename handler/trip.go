@@ -7,7 +7,7 @@ import (
 func SetupTripAPI(router *gin.RouterGroup) {
 	auth := router.Group("/trip")
 	{
-		auth.GET("/place", listPlace)
+		auth.GET("/place/:RouteID", listPlace)
 		auth.POST("/", createTrip)
 		auth.GET("/:TripID", tripDetail)
 		auth.PUT("/:TripID", updateTrip)
