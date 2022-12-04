@@ -24,7 +24,7 @@ func Setup(router *gin.Engine) {
 
 			v1.Use(middleware.JWTAuth)
 			{
-				handler.SetupTestDBAPI(v1)
+				// handler.SetupTestDBAPI(v1)
 				handler.SetupStationAPI(v1)
 				handler.SetupLineAPI(v1)
 				handler.SetupRouteAPI(v1)

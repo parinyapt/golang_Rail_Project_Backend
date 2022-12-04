@@ -5,12 +5,13 @@ import (
 )
 
 func SetupTripAPI(router *gin.RouterGroup) {
-	auth := router.Group("/trip")
+	trip := router.Group("/trip")
 	{
-		auth.GET("/place/:RouteID", listPlace)
-		auth.POST("/", createTrip)
-		auth.GET("/:TripID", tripDetail)
-		auth.PUT("/:TripID", updateTrip)
-		auth.DELETE("/:TripID", deleteTrip)
+		trip.GET("/place/:RouteID", listPlace)
+		trip.POST("/", createTrip)
+		trip.GET("/:TripID", tripDetail)
+		trip.GET("/", listTrip)
+		// auth.PUT("/:TripID", updateTrip)
+		// auth.DELETE("/:TripID", deleteTrip)
 	}
 }

@@ -59,7 +59,7 @@ func listToStation(c *gin.Context) {
 		ResponseCode: 200,
 		Default: utils.ResponseDefault{
 			Success:   true,
-			Message:   "login success",
+			Message:   "success",
 			ErrorCode: "0",
 			Data:      resListToStation,
 		},
