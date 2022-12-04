@@ -72,9 +72,10 @@ func login(c *gin.Context) {
 
 	type QueryResCheckOTP struct {
 		UUID string
+		Name string
 	}
 	var qrCheckOTP []QueryResCheckOTP
-	checkotp, err := database.DB.Raw("SELECT crp_account.account_uuid as accountuuid FROM `crp_otp` INNER JOIN crp_account ON crp_otp.otp_account_uuid = crp_account.account_uuid WHERE crp_account.account_email = ? AND `otp_code` = ? AND `otp_uuid` = ? AND `otp_status` = '1' AND ? <= DATE_ADD(`otp_create_at`, INTERVAL 5 MINUTE)", reqLogin.Email, reqLogin.OTPCode, reqLogin.RefID, time.Now()).Rows()
+	checkotp, err := database.DB.Raw("SELECT crp_account.account_uuid,crp_account.account_name as accountuuid FROM `crp_otp` INNER JOIN crp_account ON crp_otp.otp_account_uuid = crp_account.account_uuid WHERE crp_account.account_email = ? AND `otp_code` = ? AND `otp_uuid` = ? AND `otp_status` = '1' AND ? <= DATE_ADD(`otp_create_at`, INTERVAL 5 MINUTE)", reqLogin.Email, reqLogin.OTPCode, reqLogin.RefID, time.Now()).Rows()
 	if err != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 			ResponseCode: 500,
@@ -90,7 +91,7 @@ func login(c *gin.Context) {
 	defer checkotp.Close()
 	var qrcotp QueryResCheckOTP
 	for checkotp.Next() {
-		checkotp.Scan(&qrcotp.UUID)
+		checkotp.Scan(&qrcotp.UUID,&qrcotp.Name)
 		qrCheckOTP = append(qrCheckOTP, qrcotp)
 		// 	// do something
 	}
@@ -163,6 +164,7 @@ func login(c *gin.Context) {
 
 	resLogin := models.ResponseLogin{
 		Token: stringtoken,
+		Name: qrCheckOTP[0].Name,
 	}
 
 	utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{

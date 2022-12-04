@@ -8,4 +8,5 @@ type RequestLogin struct {
 
 type ResponseLogin struct {
 	Token string `json:"token"`
+	Name  string `json:"name"`
 }
