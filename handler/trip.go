@@ -12,6 +12,6 @@ func SetupTripAPI(router *gin.RouterGroup) {
 		trip.GET("/:TripID", tripDetail)
 		trip.GET("/", listTrip)
 		// auth.PUT("/:TripID", updateTrip)
-		// auth.DELETE("/:TripID", deleteTrip)
+		trip.DELETE("/:TripID", deleteTrip)
 	}
 }
