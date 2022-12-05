@@ -9,7 +9,22 @@ import (
 
 func listStation(c *gin.Context) {
 	var resListStation []models.ResponseListStation
-	query, err := database.DB.Raw("SELECT `station_id`, `station_code`, crp_translation.translation_text, `station_location_lat`, `station_location_lng`, `station_google_map`, `station_image` FROM `crp_station` INNER JOIN crp_translation ON crp_station.station_name_tx_id = crp_translation.translation_id INNER JOIN crp_language ON crp_translation.translation_language_id = crp_language.language_id WHERE crp_language.language_code = ? AND `station_line_id` = ?;", c.GetString("language"), c.Param("LineId")).Rows()
+	query, err := database.DB.Raw(`SELECT
+	station_id,
+	station_code,
+	crp_translation.translation_text,
+	station_location_lat,
+	station_location_lng,
+	station_google_map,
+	station_image,
+	crp_line.line_platform
+FROM
+	crp_station
+INNER JOIN crp_line ON crp_station.station_line_id = crp_line.line_id
+INNER JOIN crp_translation ON crp_station.station_name_tx_id = crp_translation.translation_id
+INNER JOIN crp_language ON crp_translation.translation_language_id = crp_language.language_id
+WHERE
+	crp_language.language_code = ? AND station_line_id = ?;`, c.GetString("language"), c.Param("LineId")).Rows()
 	if err != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 			ResponseCode: 500,
@@ -25,7 +40,7 @@ func listStation(c *gin.Context) {
 	defer query.Close()
 	for query.Next() {
 		var resListStation2 models.ResponseListStation
-		if err := query.Scan(&resListStation2.StationID, &resListStation2.StationCode, &resListStation2.StationName, &resListStation2.StationLatitude, &resListStation2.StationLongitude, &resListStation2.StationGoogleMap, &resListStation2.StationImage); err != nil {
+		if err := query.Scan(&resListStation2.StationID, &resListStation2.StationCode, &resListStation2.StationName, &resListStation2.StationLatitude, &resListStation2.StationLongitude, &resListStation2.StationGoogleMap, &resListStation2.StationImage, &resListStation2.Platform); err != nil {
 			utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
 				ResponseCode: 500,
 				Default: utils.ResponseDefault{

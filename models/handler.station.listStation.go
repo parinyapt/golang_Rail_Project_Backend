@@ -8,4 +8,5 @@ type ResponseListStation struct {
 	StationLongitude string `json:"station_longitude"`
 	StationGoogleMap string `json:"station_googlemap"`
 	StationImage     string `json:"station_image"`
+	Platform         string `json:"platform"`
 }
