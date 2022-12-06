@@ -107,7 +107,8 @@ func tripDetail(c *gin.Context) {
 		crp_line.line_name_tx_id = linetx.translation_id
 	INNER JOIN crp_language ON placetx.translation_language_id = crp_language.language_id AND stationtx.translation_language_id = crp_language.language_id AND linetx.translation_language_id = crp_language.language_id
 	WHERE crp_language.language_code = ? AND crp_trip_detail.ctd_trip_id = ?
-	GROUP BY crp_place.place_id;`
+	GROUP BY crp_place.place_id
+	ORDER BY crp_line.line_id,crp_station.station_id;`
 	query, err := database.DB.Raw(sqlcommand, c.GetString("language"), c.Param("TripID")).Rows()
 	if err != nil {
 		utils.ApiDefaultResponse(c, utils.ApiDefaultResponseFunctionParameter{
