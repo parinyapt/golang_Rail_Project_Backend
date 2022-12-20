@@ -47,6 +47,7 @@ func Connect() {
 
 }
 
+
 // MySQL
 // type dsnMySQLGenerateParameter struct {
 // 	Host      string
