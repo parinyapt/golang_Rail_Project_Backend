@@ -5,12 +5,12 @@ import (
 
 	"github.com/parinyapt/Rail_Project_Backend/config"
 	"github.com/parinyapt/Rail_Project_Backend/database"
-	"github.com/parinyapt/Rail_Project_Backend/environment"
+	// "github.com/parinyapt/Rail_Project_Backend/environment"
 	"github.com/parinyapt/Rail_Project_Backend/routes"
 )
 
 func main() {
-	environment.Setup()
+	// environment.Setup()
 	database.Connect()
 	config.TimezoneSetup()
 
